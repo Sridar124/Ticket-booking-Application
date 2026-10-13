@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CineBook - Book movie tickets online</title>
+    <meta name="description" content="Pick your movie, choose your seats and pay securely with CineBook.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="/" class="logo" id="logo">Cine<span>Book</span></a>
+            <nav class="nav-actions" id="navActions"></nav>
+        </div>
+    </header>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <main>
+        <ol id="stepper" class="stepper" hidden>
+            <li data-step="1">Seats</li>
+            <li data-step="2">Payment</li>
+            <li data-step="3">Confirmation</li>
+        </ol>
+
+        <section id="moviesSection">
+            <div id="hero" class="hero" hidden>
+                <div class="hero-content">
+                    <span class="hero-tag">Featured</span>
+                    <h2 id="heroTitle"></h2>
+                    <p id="heroMeta" class="hero-meta"></p>
+                    <p id="heroDesc" class="hero-desc"></p>
+                    <div class="hero-actions">
+                        <button id="heroBook" class="btn btn-primary" type="button">Book tickets</button>
+                        <button id="heroBrowse" class="btn btn-ghost" type="button">Browse all movies</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-head" id="nowShowing">
+                <h2>Now showing</h2>
+                <input id="searchInput" class="search" type="search" placeholder="Search movies" aria-label="Search movies">
+            </div>
+            <div id="genreChips" class="chips"></div>
+            <div id="movies" class="movies"></div>
+            <p id="moviesEmpty" class="empty" hidden></p>
+
+            <section class="panel feedback">
+                <div>
+                    <h3>Rate CineBook</h3>
+                    <p class="muted">Tell us how we are doing. Your feedback helps us improve.</p>
+                    <p id="appRating" class="rating"></p>
+                </div>
+                <div>
+                    <div id="appStarInput" class="stars-input"></div>
+                    <label>Your name (optional)
+                        <input id="feedbackName" type="text" maxlength="60">
+                    </label>
+                    <label>Message
+                        <textarea id="feedbackMessage" rows="3" maxlength="500" placeholder="How can we improve CineBook?"></textarea>
+                    </label>
+                    <button id="feedbackBtn" class="btn btn-primary" type="button">Send feedback</button>
+                </div>
+            </section>
+        </section>
+
+        <section id="detailsSection" hidden>
+            <button id="backBtn" class="back" type="button">&larr; All movies</button>
+
+            <div id="detailHero" class="detail-hero">
+                <div id="detailPoster"></div>
+                <div class="detail-info">
+                    <span id="detailGenre" class="chip-static"></span>
+                    <h2 id="movieTitle"></h2>
+                    <p id="movieRating" class="rating"></p>
+                    <p id="movieDescription" class="detail-desc"></p>
+                    <p id="moviePrice" class="detail-price"></p>
+                </div>
+            </div>
+
+            <div class="booking-layout">
+                <div class="panel">
+                    <h3>Choose your seats</h3>
+                    <div class="screen">SCREEN</div>
+                    <div id="seats" class="seat-map"></div>
+                    <div class="legend">
+                        <span><i class="dot free"></i>Available</span>
+                        <span><i class="dot picked"></i>Selected</span>
+                        <span><i class="dot taken"></i>Booked</span>
+                    </div>
+                </div>
+
+                <aside class="panel summary-panel">
+                    <h3>Your selection</h3>
+                    <div id="selectedChips" class="seat-chips"></div>
+                    <p id="selectedText" class="muted">No seats selected yet</p>
+                    <div class="total-row"><span>Total</span><strong id="totalText">&#8377;0.00</strong></div>
+                    <button id="bookBtn" class="btn btn-primary btn-block" type="button" disabled>Proceed to payment</button>
+                    <p id="loginHint" class="muted small"></p>
+                </aside>
+            </div>
+
+            <section class="panel reviews-panel">
+                <h3>Reviews</h3>
+                <div class="review-form">
+                    <div id="starInput" class="stars-input"></div>
+                    <label>Your name
+                        <input id="reviewName" type="text" maxlength="60">
+                    </label>
+                    <label>Your review
+                        <textarea id="reviewComment" rows="3" maxlength="500" placeholder="Share your thoughts about the movie"></textarea>
+                    </label>
+                    <button id="reviewBtn" class="btn btn-primary" type="button">Submit review</button>
+                </div>
+                <div id="reviews" class="reviews"></div>
+            </section>
+        </section>
+
+        <section id="checkoutSection" hidden>
+            <button id="checkoutBackBtn" class="back" type="button">&larr; Change seats</button>
+            <div class="checkout-layout">
+                <div class="panel">
+                    <h3>Payment method</h3>
+                    <div id="methods" class="methods"></div>
+                    <p class="muted small">Demo mode: no real money is charged.</p>
+                </div>
+                <aside class="panel">
+                    <h3>Order summary</h3>
+                    <div id="orderSummary"></div>
+                    <button id="payBtn" class="btn btn-primary btn-block" type="button">Pay</button>
+                </aside>
+            </div>
+        </section>
+
+        <section id="receiptSection" hidden>
+            <div class="ticket">
+                <div class="ticket-head">
+                    <div class="check">&#10003;</div>
+                    <h2>Booking confirmed</h2>
+                    <p class="muted">Show this ticket at the theatre</p>
+                </div>
+                <div id="receiptDetails" class="ticket-body"></div>
+                <div class="txn">
+                    <small class="muted">Transaction ID</small>
+                    <strong id="txnId"></strong>
+                </div>
+                <div class="ticket-foot">
+                    <button id="printBtn" class="btn btn-ghost" type="button">Print ticket</button>
+                    <button id="receiptBookingsBtn" class="btn btn-ghost" type="button">My bookings</button>
+                    <button id="doneBtn" class="btn btn-primary" type="button">Back to movies</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="bookingsSection" hidden>
+            <div class="section-head">
+                <h2>My bookings</h2>
+            </div>
+            <div id="bookingChips" class="chips"></div>
+            <div id="bookingList" class="booking-list"></div>
+            <p id="bookingsEmpty" class="empty" hidden></p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        &copy; <span id="year"></span> CineBook &middot; Built with Spring Boot, MySQL and JavaScript
+    </footer>
+
+    <div id="authModal" class="modal" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+            <button id="authClose" class="modal-close" type="button" aria-label="Close">&times;</button>
+            <h2 id="authTitle">Welcome back</h2>
+            <p id="authSub" class="muted"></p>
+            <div class="tabs">
+                <button id="tabLogin" class="tab active" type="button">Log in</button>
+                <button id="tabSignup" class="tab" type="button">Sign up</button>
+            </div>
+            <form id="authForm" novalidate>
+                <label id="nameField" hidden>Name
+                    <input id="authName" type="text" autocomplete="name" maxlength="60">
+                </label>
+                <label>Email
+                    <input id="authEmail" type="email" autocomplete="email">
+                </label>
+                <label>Password
+                    <input id="authPassword" type="password" autocomplete="current-password">
+                </label>
+                <p id="authError" class="form-error" hidden></p>
+                <button id="authSubmit" class="btn btn-primary btn-block" type="submit">Log in</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal" hidden>
+        <div class="modal-card" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+            <h2 id="confirmTitle">Cancel this booking?</h2>
+            <p id="confirmText" class="muted"></p>
+            <div class="confirm-actions">
+                <button id="confirmNo" class="btn btn-ghost" type="button">Keep booking</button>
+                <button id="confirmYes" class="btn btn-danger" type="button">Yes, cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
